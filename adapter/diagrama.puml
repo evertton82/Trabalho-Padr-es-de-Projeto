@@ -1,0 +1,29 @@
+@startuml adapter
+
+title Padrão Adapter - Leitor de Mídia
+
+interface ILeitorMidia {
+    + tocar(tipo : String, nomeArquivo : String) : String
+}
+
+class ReprodutorAudio {
+    - adaptador : ILeitorMidia
+    + tocar(tipo : String, nomeArquivo : String) : String
+}
+
+class AdaptadorMidia {
+    - reprodutorAvancado : ReprodutorAvancado
+    + tocar(tipo : String, nomeArquivo : String) : String
+}
+
+class ReprodutorAvancado {
+    + tocarMp4(nomeArquivo : String) : String
+    + tocarVlc(nomeArquivo : String) : String
+}
+
+ILeitorMidia <|.. ReprodutorAudio
+ILeitorMidia <|.. AdaptadorMidia
+ReprodutorAudio o--> ILeitorMidia : delega
+AdaptadorMidia o--> ReprodutorAvancado : adapta
+
+@enduml
