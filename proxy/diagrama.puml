@@ -1,0 +1,35 @@
+@startuml proxy
+
+title Padrão Proxy - Controle de Acesso a Documento
+
+interface IDocumento {
+    + ler(usuario : Usuario) : String
+}
+
+class DocumentoConfidencial {
+    - titulo : String
+    - conteudo : String
+    + getTitulo() : String
+    + ler(usuario : Usuario) : String
+}
+
+class ProxyDocumento {
+    - documento : DocumentoConfidencial
+    - titulo : String
+    - conteudo : String
+    + ler(usuario : Usuario) : String
+}
+
+class Usuario {
+    - nome : String
+    - autorizado : boolean
+    + getNome() : String
+    + isAutorizado() : boolean
+}
+
+IDocumento <|.. DocumentoConfidencial
+IDocumento <|.. ProxyDocumento
+ProxyDocumento o--> DocumentoConfidencial : carrega sob demanda
+ProxyDocumento ..> Usuario : autoriza
+
+@enduml
