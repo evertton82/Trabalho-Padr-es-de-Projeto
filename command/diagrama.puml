@@ -1,0 +1,33 @@
+@startuml command
+
+title Padrão Command - Pedidos no Restaurante
+
+interface IComando {
+    + executar() : String
+    + cancelar() : String
+}
+
+class ComandoPrato {
+    - cozinha : Cozinha
+    - prato : String
+    + executar() : String
+    + cancelar() : String
+}
+
+class Cozinha {
+    + prepararPrato(prato : String) : String
+    + descartarPrato(prato : String) : String
+}
+
+class Garcom {
+    - comandas : List<IComando>
+    + anotarEEnviar(comando : IComando) : String
+    + cancelarUltimoPedido() : String
+    + pedidosPendentes() : int
+}
+
+IComando <|.. ComandoPrato
+ComandoPrato o--> Cozinha : invoca
+Garcom o--> IComando : enfileira
+
+@enduml
