@@ -1,0 +1,45 @@
+@startuml interpreter
+
+title Padrão Interpreter - Comandos de Robô
+
+interface IComandoRobo {
+    + interpretar(robo : Robo) : void
+}
+
+class Avancar {
+    + interpretar(robo : Robo) : void
+}
+
+class Girar {
+    + interpretar(robo : Robo) : void
+}
+
+class Sequencia {
+    - comandos : List<IComandoRobo>
+    + interpretar(robo : Robo) : void
+}
+
+class InterpretadorPrograma {
+    - comandoInicial : IComandoRobo
+    + InterpretadorPrograma(programa : String)
+    + interpretar(robo : Robo) : void
+}
+
+class Robo {
+    - x : int
+    - y : int
+    - direcao : char
+    + avancar() : void
+    + girarDireita() : void
+    + posicao() : String
+}
+
+IComandoRobo <|.. Avancar
+IComandoRobo <|.. Girar
+IComandoRobo <|.. Sequencia
+IComandoRobo <|.. InterpretadorPrograma
+Sequencia o--> IComandoRobo : compõe
+InterpretadorPrograma o--> IComandoRobo : monta
+IComandoRobo ..> Robo : interpreta
+
+@enduml
